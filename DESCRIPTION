@@ -7,4 +7,12 @@ Author: Kieran Healy
 Maintainer: Kieran Healy <kjhealy@gmail.com>
 Description: For my own use only.
 License: GPL-2
-Depends: grid
+Depends:
+    grid
+Collate:
+    'chwd.R'
+    'chwd.analysis.R'
+    'chwd.paper.R'
+    'chwd.setup.R'
+    'ptable.R'
+    'utility.R'

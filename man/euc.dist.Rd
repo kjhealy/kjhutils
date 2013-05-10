@@ -1,62 +1,21 @@
 \name{euc.dist}
 \alias{euc.dist}
-%- Also NEED an '\alias' for EACH other topic documented here.
-\title{
-Euclidean distance.
-}
-\description{
-Calculate the Euclidean distance between two vectors.
-}
+\title{euc.dist}
 \usage{
-euc.dist(x1, x2)
+  euc.dist(x1, x2)
 }
-%- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{x1}{
-%%     ~~Describe \code{x1} here~~
-}
-  \item{x2}{
-%%     ~~Describe \code{x2} here~~
-}
-}
-\details{
-%%  ~~ If necessary, more details than the description above ~~
+  \item{x1}{First vector}
+
+  \item{x2}{Second vector}
 }
 \value{
-%%  ~Describe the value returned
-%%  If it is a LIST, use
-%%  \item{comp1 }{Description of 'comp1'}
-%%  \item{comp2 }{Description of 'comp2'}
-%% ...
+  The euclidean distance between x1 and x2
 }
-\references{
-%% ~put references to the literature/web site here ~
+\description{
+  Euclidean distance for two vectors
 }
 \author{
-%%  ~~who you are~~
-}
-\note{
-%%  ~~further notes~~
+  Kieran Healy
 }
 
-%% ~Make other sections like Warning with \section{Warning }{....} ~
-
-\seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
-}
-\examples{
-##---- Should be DIRECTLY executable !! ----
-##-- ==>  Define data, use random,
-##--	or do  help(data=index)  for the standard data sets.
-
-## The function is currently defined as
-function (x1, x2) 
-{
-    x <- sqrt(sum((x1 - x2)^2))
-    return(x)
-  }
-}
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

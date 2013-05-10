@@ -1,61 +1,21 @@
 \name{vplayout}
 \alias{vplayout}
-%- Also NEED an '\alias' for EACH other topic documented here.
-\title{
-Lay out a viewport.
-}
-\description{
-Hadley Wickham's function for defining a viewport with x rows and y columns.
-}
+\title{vplayout}
 \usage{
-vplayout(x, y)
+  vplayout(x, y)
 }
-%- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{x}{
-The number of rows in the viewport.
-}
-  \item{y}{
-The number of columns in the viewport.
-}
-}
-\details{
-%%  ~~ If necessary, more details than the description above ~~
+  \item{x}{n rows in viewport}
+
+  \item{y}{n columns in viewport}
 }
 \value{
-%%  ~Describe the value returned
-%%  If it is a LIST, use
-%%  \item{comp1 }{Description of 'comp1'}
-%%  \item{comp2 }{Description of 'comp2'}
-%% ...
+  A viewport for plotting with x rows and y columns
 }
-\references{
-%% ~put references to the literature/web site here ~
+\description{
+  Refer to viewport layouts easily (Wickham)
 }
 \author{
-%%  ~~who you are~~
-}
-\note{
-%%  ~~further notes~~
+  Kieran Healy
 }
 
-%% ~Make other sections like Warning with \section{Warning }{....} ~
-
-\seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
-}
-\examples{
-##---- Should be DIRECTLY executable !! ----
-##-- ==>  Define data, use random,
-##--	or do  help(data=index)  for the standard data sets.
-
-## The function is currently defined as
-function (x, y) 
-{
-    viewport(layout.pos.row = x, layout.pos.col = y)
-  }
-}
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
