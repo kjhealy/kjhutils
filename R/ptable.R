@@ -7,6 +7,7 @@
 ##' @param dig Number of digits after the decimal point in the output
 ##' @return A nice table
 ##' @author Kieran Healy
+##' @export
 ptable <- function(..., by.pct=1,dig=2){
   out <- round(prop.table(table(...), by.pct)*100, dig)
   out

@@ -2,6 +2,7 @@
 ##' @title chwd.paper
 ##' @return switch dir
 ##' @author Kieran Healy
+##' @export
 chwd.paper <-
 function(){
   chwd("paper")
