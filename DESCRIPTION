@@ -1,7 +1,7 @@
 Package: kjhutils
 Type: Package
 Title: Utility functions for data analysis.
-Version: 0.1
+Version: 0.2
 Date: 2013-05-04
 Author: Kieran Healy
 Maintainer: Kieran Healy <kjhealy@gmail.com>
@@ -16,3 +16,4 @@ Collate:
     'chwd.setup.R'
     'ptable.R'
     'utility.R'
+    'clean-glm-labels.r'
