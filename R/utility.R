@@ -12,6 +12,7 @@
 ##' @param y n columns in viewport
 ##' @return A viewport for plotting with x rows and y columns
 ##' @author Kieran Healy
+##' @export
 vplayout <- function(x, y){
   viewport(layout.pos.row = x, layout.pos.col = y)
 }
@@ -23,6 +24,7 @@ vplayout <- function(x, y){
 ##' @param color
 ##' @return plot footnote
 ##' @author Kieran Healy
+##' @export
 makeFootnote <- function(footnoteText=
                          format(Sys.time(), "%d %b %Y"),
                          size= .7, color= grey(.5))
@@ -45,6 +47,7 @@ makeFootnote <- function(footnoteText=
 ##homepage URL.
 ##' @return credit
 ##' @author Kieran Healy
+##' @export
 credit <- function(credit.text="Kieran Healy, http://kieranhealy.org\n") {
   return(makeFootnote(credit.text))
 }
@@ -56,6 +59,7 @@ credit <- function(credit.text="Kieran Healy, http://kieranhealy.org\n") {
 ##' @param x2 Second vector
 ##' @return The euclidean distance between x1 and x2
 ##' @author Kieran Healy
+##' @export
 euc.dist <- function(x1, x2){
   x <- sqrt(sum((x1 - x2) ^ 2))
   return(x)
