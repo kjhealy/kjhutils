@@ -37,7 +37,7 @@ space.around.sign <- function(labs){
 ##' @return string with space
 ##' @author Kieran Healy
 space.after.age <- function(labs){
-  o <- gsub("(Age)([0-9])", "\\1 \\2")
+  o <- gsub("(Age)([0-9])", "\\1 \\2", labs)
   return(o)
 }
 ##' Inserts space between camelcased variables
@@ -48,6 +48,26 @@ space.after.age <- function(labs){
 ##' @author Kieran Healy
 insert.space <- function(labs){
   o <- gsub("([a-z])([A-Z])", "\\1 \\2", labs)
+  return(o)
+}
+##' Rename Income4 to Income:
+##' Utility function
+##' @title Rename Income4 to Income:
+##' @param labs input string
+##' @return Cleaned string
+##' @author Kieran Healy
+incomeN.toincome <- function(labs){
+  o <- gsub("(Income)([0-9])", "\\1: ", labs)
+  return(o)
+}
+##' Q YN to Q:
+##' Utility clean function
+##' @title Change Q YN to Q:
+##' @param labs string
+##' @return cleaned up string
+##' @author Kieran Healy
+QYN.to.Q <- function(labs){
+  o <- gsub("Q YN", "Q: ", labs)
   return(o)
 }
 ##' Apply processed labels to GLM
@@ -68,12 +88,16 @@ set.glm.labels <- function(model.name, newlabs){
 ##' @param model.name The GLM
 ##' @return The GLM with cleaner labels, for use with ascii()
 ##' @author Kieran Healy
+##' @export
 fix.glm.labels <- function(model.name){
   olabs <- get.glm.labels(model.name)
   o <- insert.space(olabs)
   o <- space.around.sign(o)
   o <- space.after.age(o)
-  newlabs <- rm.periods(o)
+  o <- rm.periods(o)
+  o <- incomeN.toincome(o)
+  o <- QYN.to.Q(o)
+  newlabs <- o
   out <- set.glm.labels(model.name, newlabs)
   return(out)
 }
