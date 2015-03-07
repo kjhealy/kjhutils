@@ -6,7 +6,7 @@
 "%nin%" <- Negate("%in%")
 
 
-##' Refer to viewport layouts easily (Wickham)
+##' Refer to viewport layouts easily (Hadley Wickham, ggplot2 book)
 ##' @title vplayout
 ##' @param x n rows in viewport
 ##' @param y n columns in viewport
