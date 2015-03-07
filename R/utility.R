@@ -79,3 +79,18 @@ show.pal <- function(col, border="light gray" , ...){
          axes = FALSE, xlab = "", ylab = "", ...)
     rect(0:(n-1)/n, 0, 1:n/n, 1, col = col, border = border)
 }
+
+
+##' n-way contingency tables showing row/column percents. Nicer than raw frequencies.
+##' convenience function
+##' @title ptable
+##' @param ... Like table, the vectors to be tablulated.
+##' @param by.pct Which dimension to calculate the perentages on. 1 is row, 2 is column, etc.
+##' @param dig Number of digits after the decimal point in the output
+##' @return A prop.table object
+##' @author Kieran Healy
+##' @export
+ptable <- function(..., by.pct=1,dig=2){
+  out <- round(prop.table(table(...), by.pct)*100, dig)
+  return(out)
+}

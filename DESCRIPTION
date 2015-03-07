@@ -15,7 +15,6 @@ Collate:
     'chwd.analysis.R'
     'chwd.paper.R'
     'chwd.setup.R'
-    'ptable.R'
     'utility.R'
     'clean-glm-labels.r'
     'clear-knitr-cache.R'
