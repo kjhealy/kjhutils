@@ -8,7 +8,8 @@ Maintainer: Kieran Healy <kjhealy@gmail.com>
 Description: For my own use only.
 License: GPL-2
 Depends:
-    grid
+    grid,
+    testthat
 Collate:
     'chwd.R'
     'chwd.analysis.R'
@@ -19,3 +20,5 @@ Collate:
     'clean-glm-labels.r'
     'clear-knitr-cache.R'
     'palette.r'
+    'asinhbreaks.r'
+

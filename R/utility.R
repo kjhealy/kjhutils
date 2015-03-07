@@ -64,3 +64,18 @@ euc.dist <- function(x1, x2){
   x <- sqrt(sum((x1 - x2) ^ 2))
   return(x)
 }
+
+##' Convenience function to show a palette of colors
+##' from http://cran.r-project.org/web/packages/colorspace/vignettes/hcl-colors.pdf
+##' @title show.pal
+##' @param col Vector of rgb colors
+##' @param border border background
+##' @return Plots the vector of colors you feed it
+##' @author Kieran Healy
+##' @export
+show.pal <- function(col, border="light gray" , ...){
+    n <- length(col)
+    plot(0, 0, type="n", xlim = c(0, 1), ylim = c(0, 1),
+         axes = FALSE, xlab = "", ylab = "", ...)
+    rect(0:(n-1)/n, 0, 1:n/n, 1, col = col, border = border)
+}
