@@ -1,3 +1,4 @@
+
 ##' Tweak the plot.ca function to handle a vector of colors for the labels
 ##'
 ##' Written by Michael Greenacre, Oleg Nenadic, and Michael Friendly, and trivially modified by Kieran Healy.
@@ -26,6 +27,7 @@ plot.colorca <- function (x, dim = c(1, 2), map = "symmetric", centroids = FALSE
         17, 24), labels = c(2, 2), arrows = c(FALSE, FALSE),
                           labcols=NULL, txtsize=0.75, ...)
 {
+    require(ca)
     obj <- x
     if (what[1] != "none")
         what[1] <- "none"
@@ -248,7 +250,6 @@ plot.colorca <- function (x, dim = c(1, 2), map = "symmetric", centroids = FALSE
 }
 
 
-
 ##' Run a correspondence analysis on the model data and return it and
 ##' a list of colors for the labels. Uses both main and supp vars in the
 ##' analysis. (i.e. combines them so they are all mainvars.)
@@ -306,4 +307,76 @@ run.supp.ca <- function(data, mainvars, suppvars, ...){
   out.list <- list(model=out.ca, colors=label.colors)
   return(out.list)
   ## return(out.ca)
+}
+
+
+
+##' Clean ca clabels
+##'
+##' tiding up labels from the fin survey
+##' @title Clean ca labels
+##' @param vnames vector of label names
+##' @return Scrubbed labels for ca plot
+##' @author Kieran Healy
+clean.calabels <- function(vnames){
+  vnames.ed <- sub("Gender", "Gender:\\\n", vnames)
+  vnames.ed <- sub("Age", "Age:", vnames.ed)
+  vnames.ed <- sub("Interest\\.Q\\.ans", "FinLitQ1:\\\n", vnames.ed)
+  vnames.ed <- sub("Inflation\\.Q\\.ans", "FinLitQ2:\\\n", vnames.ed)
+  vnames.ed <- sub("Mortgage\\.Q\\.ans", "FinLitQ3:\\\n", vnames.ed)
+  vnames.ed <- sub("Tax\\.Refund\\.Advance\\.5yr", "TRAL",
+                   vnames.ed)
+  vnames.ed <- sub("Payday\\.Loan\\.5yr", "Payday Loan", vnames.ed)
+  vnames.ed <- sub("RTO\\.5yr", "RTO", vnames.ed)
+  vnames.ed <- sub("Education", "Education:\\\n", vnames.ed)
+  vnames.ed <- sub("Ethnicity:", "Ethnicity:\\\n", vnames.ed)
+  vnames.ed <- sub("Marital", "Marital:\\\n", vnames.ed)
+  vnames.ed <- sub("Employment\\.Spouse", "Spouse:", vnames.ed)
+  vnames.ed <- sub("Employment\\.Self", "", vnames.ed)
+  vnames.ed <- sub("Check\\.Cashing\\.Outlet", "CCO", vnames.ed)
+  vnames.ed <- sub("Check\\.Cashing\\.Grocery", "CCG", vnames.ed)
+  vnames.ed <- sub("Mortgage\\.Late", "Mortgage Late:\\\n", vnames.ed)
+  vnames.ed <- sub("Fixed\\.Adjustable", "Mortgage Type:\\\n",
+                 vnames.ed)
+  vnames.ed <- sub("Adjustable rate mortgage", "Adjustable",
+                 vnames.ed)
+  vnames.ed <- sub("Interest\\.OnlyYes - Interest only mortgage or interest-only option",
+                 "IOARMYes", vnames.ed)
+  vnames.ed <- sub("Interest\\.OnlyNo", "IOARMNo", vnames.ed)
+  vnames.ed <- sub("No", ":No", vnames.ed)
+  vnames.ed <- sub("Yes", ":Yes", vnames.ed)
+  vnames.ed <- sub("Income4", "Income\\\n", vnames.ed)
+  vnames.ed <- sub("Kids", "Kids:", vnames.ed)
+  vnames.ed <- sub("Cards", "Cards:", vnames.ed)
+  vnames.ed <- sub("CC\\.", "", vnames.ed)
+  vnames.ed <- sub("Credit\\.Score", "Credit Score:\\\n", vnames.ed)
+  vnames.ed <- sub("Health\\.Insurance", "Health\\\nInsurance",
+                   vnames.ed)
+  vnames.ed <- sub("Investment\\.Advice", "Investment\\\nAdvice",
+                   vnames.ed)
+  vnames.ed <- sub("Tax\\.Planning", "Tax\\\nPlanning",
+                   vnames.ed)
+  vnames.ed <- sub("\\.YND", "", vnames.ed)
+  vnames.ed <- sub("\\.YN", "", vnames.ed)
+  vnames.ed <- gsub(":>", ">", vnames.ed)
+  vnames.ed <- gsub(":<", ">", vnames.ed)
+  vnames.ed <- gsub(":\\\n:", ":\\\n", vnames.ed)
+  vnames.ed <- gsub("^:", "", vnames.ed)
+  vnames.ed <- gsub(":\\$", "\\$", vnames.ed)
+  vnames.ed <- gsub("\\.", " ", vnames.ed)
+  vnames.ed <- gsub("::", ":", vnames.ed)
+  return(vnames.ed)
+}
+
+
+##' Count the number of levels in a factor
+##'
+##' Useful for plotting color ca vals
+##' @title len.lev
+##' @param x a factor
+##' @return the number of levels in \code{x}
+##' @author Kieran Healy
+len.lev <- function(x){
+  o <- length(as.vector(levels(x)))
+  return(o)
 }
