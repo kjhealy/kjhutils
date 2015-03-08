@@ -1,10 +1,31 @@
-###--------------------------------------------------
-### Utility functions
-###--------------------------------------------------
+##' Inverse Value Matching
+##'
+##' Complement of \code{\%in\%}. Returns the elements of \code{x} that are not in \code{y}.
+##' @title \%nin\%
+##' @param x vector of items
+##' @param y vector of all values
+##' @return logical vecotor of items in x not in y
+##' @author Kieran Healy
+##' @rdname nin
+##' @export
+"%nin%" <- function(x, y) {
+  return( !(x %in% y) )
+}
 
-## Not-in operator
-"%nin%" <- Negate("%in%")
-
+##' percent in
+##'
+##' calculate the percentage of elements of \code{table} that are in \code{x}. Courtesy http://stackoverflow.com/questions/13829961/how-does-roxygen-to-handle-infix-binary-operators-eg-in
+##' @title pctin
+##' @param x vector or NULL: the values to be matched
+##' @param table vector or NULL: the values to be matched against
+##' @return percentage of elements of \code{x} that are in \code{table}
+##' @author gsee
+##' @usage x \%pctin\% table
+##' @examples
+##' letters[1:10] %pctin% letters[1:3] # 30% of the second arg ar in the first
+##' @export
+##' @rdname PctIn
+"%pctin%" <- function(x, table) length(x[x %in% table])/length(x)
 
 ##' Refer to viewport layouts easily (Hadley Wickham, ggplot2 book)
 ##' @title vplayout

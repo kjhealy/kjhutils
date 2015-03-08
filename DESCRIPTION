@@ -11,6 +11,7 @@ Depends:
     grid,
     testthat
 Collate:
+    'ca.R'
     'chwd.R'
     'chwd.analysis.R'
     'chwd.paper.R'
