@@ -1,27 +1,161 @@
 
+
+##' Run a correspondence analysis on the model data and return it and
+##' a list of colors for the labels. Uses both main and supp vars in the
+##' analysis. (i.e. combines them so they are all mainvars.)
+##'
+##' Simple wrapper for multiple use. Requires Friendly et al's ca package.
+##' @title run.ca
+##' @param data Data frame
+##' @param mainvars Character vector of Main Variables
+##' @param suppvars Character vector of Supplementary Variables
+##' @param ... Other arguments to ca()
+##' @return ca object
+##' @author Kieran Healy
+##' @export
+run.ca <- function(data, mainvars, suppvars, ...){
+  out <- data[,c(mainvars, suppvars)]
+  out.ca <- mjca(out, lambda="adjusted")
+  out.vnames <- out.ca$levelnames
+  out.vnames.ed <- clean.calabels(out.vnames)
+  out.ca$levelnames <- out.vnames.ed
+  nlevels.suppvars <- sum(sapply(data[,suppvars], len.lev))
+  nlevels.mainvars <- sum(sapply(data[,mainvars], len.lev))
+  label.colors <- c(rep(my.colors()[6], nlevels.mainvars), rep(my.colors()[7],
+                                                            nlevels.suppvars))
+  out.list <- list(model=out.ca, colors=label.colors)
+  return(out.list)
+}
+
+
+
+##' Run a correspondence analysis on the model data using suppvars as supplementary
+##'
+##' Simple wrapper for multiple use. Requires Friendly et al's ca package.
+##' @title run.supp.ca
+##' @param data Character vector of Main Variables
+##' @param mainvars Main variables
+##' @param suppvars Supplementary variables
+##' @param ... Other arguments to ca()
+##' @return ca object
+##' @author Kieran Healy
+##' @export
+run.supp.ca <- function(data, mainvars, suppvars, ...){
+  all.vars <- c(mainvars, suppvars)
+  supcol.start <- length(mainvars)+1
+  supcol.end <- length(all.vars)
+
+  out <- data[,c(mainvars, suppvars)]
+  out.ca <- mjca(out, supcol=c(supcol.start:supcol.end), lambda="adjusted")
+  out.vnames <- out.ca$levelnames
+  out.vnames.ed <- clean.calabels(out.vnames)
+  out.ca$levelnames <- out.vnames.ed
+  nlevels.suppvars <- sum(sapply(data[,suppvars], len.lev))
+  nlevels.mainvars <- sum(sapply(data[,mainvars], len.lev))
+  label.colors <- c(rep(my.colors()[6], nlevels.mainvars), rep(my.colors()[7],
+                                                            nlevels.suppvars))
+  out.list <- list(model=out.ca, colors=label.colors)
+  return(out.list)
+  ## return(out.ca)
+}
+
+
+
+##' Clean ca clabels
+##'
+##' tiding up labels from the fin survey
+##' @title Clean ca labels
+##' @param vnames vector of label names
+##' @return Scrubbed labels for ca plot
+##' @author Kieran Healy
+clean.calabels <- function(vnames){
+  vnames.ed <- sub("Gender", "Gender:\\\n", vnames)
+  vnames.ed <- sub("Age", "Age:", vnames.ed)
+  vnames.ed <- sub("Interest\\.Q\\.ans", "FinLitQ1:\\\n", vnames.ed)
+  vnames.ed <- sub("Inflation\\.Q\\.ans", "FinLitQ2:\\\n", vnames.ed)
+  vnames.ed <- sub("Mortgage\\.Q\\.ans", "FinLitQ3:\\\n", vnames.ed)
+  vnames.ed <- sub("Tax\\.Refund\\.Advance\\.5yr", "TRAL",
+                   vnames.ed)
+  vnames.ed <- sub("Payday\\.Loan\\.5yr", "Payday Loan", vnames.ed)
+  vnames.ed <- sub("RTO\\.5yr", "RTO", vnames.ed)
+  vnames.ed <- sub("Education", "Education:\\\n", vnames.ed)
+  vnames.ed <- sub("Ethnicity:", "Ethnicity:\\\n", vnames.ed)
+  vnames.ed <- sub("Marital", "Marital:\\\n", vnames.ed)
+  vnames.ed <- sub("Employment\\.Spouse", "Spouse:", vnames.ed)
+  vnames.ed <- sub("Employment\\.Self", "", vnames.ed)
+  vnames.ed <- sub("Check\\.Cashing\\.Outlet", "CCO", vnames.ed)
+  vnames.ed <- sub("Check\\.Cashing\\.Grocery", "CCG", vnames.ed)
+  vnames.ed <- sub("Mortgage\\.Late", "Mortgage Late:\\\n", vnames.ed)
+  vnames.ed <- sub("Fixed\\.Adjustable", "Mortgage Type:\\\n",
+                 vnames.ed)
+  vnames.ed <- sub("Adjustable rate mortgage", "Adjustable",
+                 vnames.ed)
+  vnames.ed <- sub("Interest\\.OnlyYes - Interest only mortgage or interest-only option",
+                 "IOARMYes", vnames.ed)
+  vnames.ed <- sub("Interest\\.OnlyNo", "IOARMNo", vnames.ed)
+  vnames.ed <- sub("No", ":No", vnames.ed)
+  vnames.ed <- sub("Yes", ":Yes", vnames.ed)
+  vnames.ed <- sub("Income4", "Income\\\n", vnames.ed)
+  vnames.ed <- sub("Kids", "Kids:", vnames.ed)
+  vnames.ed <- sub("Cards", "Cards:", vnames.ed)
+  vnames.ed <- sub("CC\\.", "", vnames.ed)
+  vnames.ed <- sub("Credit\\.Score", "Credit Score:\\\n", vnames.ed)
+  vnames.ed <- sub("Health\\.Insurance", "Health\\\nInsurance",
+                   vnames.ed)
+  vnames.ed <- sub("Investment\\.Advice", "Investment\\\nAdvice",
+                   vnames.ed)
+  vnames.ed <- sub("Tax\\.Planning", "Tax\\\nPlanning",
+                   vnames.ed)
+  vnames.ed <- sub("\\.YND", "", vnames.ed)
+  vnames.ed <- sub("\\.YN", "", vnames.ed)
+  vnames.ed <- gsub(":>", ">", vnames.ed)
+  vnames.ed <- gsub(":<", ">", vnames.ed)
+  vnames.ed <- gsub(":\\\n:", ":\\\n", vnames.ed)
+  vnames.ed <- gsub("^:", "", vnames.ed)
+  vnames.ed <- gsub(":\\$", "\\$", vnames.ed)
+  vnames.ed <- gsub("\\.", " ", vnames.ed)
+  vnames.ed <- gsub("::", ":", vnames.ed)
+  return(vnames.ed)
+}
+
+
+##' Count the number of levels in a factor
+##'
+##' Useful for plotting color ca vals
+##' @title len.lev
+##' @param x a factor
+##' @return the number of levels in \code{x}
+##' @author Kieran Healy
+len.lev <- function(x){
+  o <- length(as.vector(levels(x)))
+  return(o)
+}
+
+
+
+
 ##' Tweak the plot.ca function to handle a vector of colors for the labels
 ##'
 ##' Written by Michael Greenacre, Oleg Nenadic, and Michael Friendly, and trivially modified by Kieran Healy.
-##' @title plot.colorca
-##' @param x ca object. See plot.mjca for details on this and other
-##' arguments below
-##' @param dim
-##' @param map
-##' @param centroids
-##' @param what
-##' @param mass
-##' @param contrib
+##' @title colorca.plot
+##' @param x ca object. See plot.mjca for details on this and other arguments below
+##' @param dim See plot.mjca
+##' @param map See plot.mjca
+##' @param centroids See plot.mjca
+##' @param what See plot.mjca
+##' @param mass See plot.mjca
+##' @param contrib See plot.mjca
 ##' @param col Vector of colors
-##' @param pch
-##' @param labels
-##' @param arrows
+##' @param pch See plot.mjca
+##' @param labels See plot.mjca
+##' @param arrows See plot.mjca
 ##' @param labcols Vector of colors for the labels (main and supplementary)
-##' @param txtsize
-##' @param ...
+##' @param txtsize See plot.mjca
+##' @param ... See plot.mjca
 ##' @return an mjca plot
 ##' @author Kieran Healy
 ##' @export
-plot.colorca <- function (x, dim = c(1, 2), map = "symmetric", centroids = FALSE,
+colorca.plot <- function(x, dim = c(1, 2), map = "symmetric", centroids = FALSE,
     what = c("none", "all"), mass = c(FALSE, FALSE), contrib = c("none",
         "none"), col = c("#000000", "#FF0000"), pch = c(16, 1,
         17, 24), labels = c(2, 2), arrows = c(FALSE, FALSE),
@@ -247,136 +381,4 @@ plot.colorca <- function (x, dim = c(1, 2), map = "symmetric", centroids = FALSE
             xpd = TRUE, col=labcols)
     }
     par(pty = pty.backup)
-}
-
-
-##' Run a correspondence analysis on the model data and return it and
-##' a list of colors for the labels. Uses both main and supp vars in the
-##' analysis. (i.e. combines them so they are all mainvars.)
-##'
-##' Simple wrapper for multiple use. Requires Friendly et al's ca package.
-##' @title run.ca
-##' @param data Data frame
-##' @param mainvars Character vector of Main Variables
-##' @param suppvars Character vector of Supplementary Variables
-##' @param ... Other arguments to ca()
-##' @return ca object
-##' @author Kieran Healy
-##' @export
-run.ca <- function(data, mainvars, suppvars, ...){
-  out <- data[,c(mainvars, suppvars)]
-  out.ca <- mjca(out, lambda="adjusted")
-  out.vnames <- out.ca$levelnames
-  out.vnames.ed <- clean.calabels(out.vnames)
-  out.ca$levelnames <- out.vnames.ed
-  nlevels.suppvars <- sum(sapply(data[,suppvars], len.lev))
-  nlevels.mainvars <- sum(sapply(data[,mainvars], len.lev))
-  label.colors <- c(rep(my.colors()[6], nlevels.mainvars), rep(my.colors()[7],
-                                                            nlevels.suppvars))
-  out.list <- list(model=out.ca, colors=label.colors)
-  return(out.list)
-}
-
-
-
-##' Run a correspondence analysis on the model data using suppvars as supplementary
-##'
-##' Simple wrapper for multiple use. Requires Friendly et al's ca package.
-##' @title run.supp.ca
-##' @param data Character vector of Main Variables
-##' @param mainvars Main variables
-##' @param suppvars Supplementary variables
-##' @param ... Other arguments to ca()
-##' @return ca object
-##' @author Kieran Healy
-##' @export
-run.supp.ca <- function(data, mainvars, suppvars, ...){
-  all.vars <- c(mainvars, suppvars)
-  supcol.start <- length(mainvars)+1
-  supcol.end <- length(all.vars)
-
-  out <- data[,c(mainvars, suppvars)]
-  out.ca <- mjca(out, supcol=c(supcol.start:supcol.end), lambda="adjusted")
-  out.vnames <- out.ca$levelnames
-  out.vnames.ed <- clean.calabels(out.vnames)
-  out.ca$levelnames <- out.vnames.ed
-  nlevels.suppvars <- sum(sapply(data[,suppvars], len.lev))
-  nlevels.mainvars <- sum(sapply(data[,mainvars], len.lev))
-  label.colors <- c(rep(my.colors()[6], nlevels.mainvars), rep(my.colors()[7],
-                                                            nlevels.suppvars))
-  out.list <- list(model=out.ca, colors=label.colors)
-  return(out.list)
-  ## return(out.ca)
-}
-
-
-
-##' Clean ca clabels
-##'
-##' tiding up labels from the fin survey
-##' @title Clean ca labels
-##' @param vnames vector of label names
-##' @return Scrubbed labels for ca plot
-##' @author Kieran Healy
-clean.calabels <- function(vnames){
-  vnames.ed <- sub("Gender", "Gender:\\\n", vnames)
-  vnames.ed <- sub("Age", "Age:", vnames.ed)
-  vnames.ed <- sub("Interest\\.Q\\.ans", "FinLitQ1:\\\n", vnames.ed)
-  vnames.ed <- sub("Inflation\\.Q\\.ans", "FinLitQ2:\\\n", vnames.ed)
-  vnames.ed <- sub("Mortgage\\.Q\\.ans", "FinLitQ3:\\\n", vnames.ed)
-  vnames.ed <- sub("Tax\\.Refund\\.Advance\\.5yr", "TRAL",
-                   vnames.ed)
-  vnames.ed <- sub("Payday\\.Loan\\.5yr", "Payday Loan", vnames.ed)
-  vnames.ed <- sub("RTO\\.5yr", "RTO", vnames.ed)
-  vnames.ed <- sub("Education", "Education:\\\n", vnames.ed)
-  vnames.ed <- sub("Ethnicity:", "Ethnicity:\\\n", vnames.ed)
-  vnames.ed <- sub("Marital", "Marital:\\\n", vnames.ed)
-  vnames.ed <- sub("Employment\\.Spouse", "Spouse:", vnames.ed)
-  vnames.ed <- sub("Employment\\.Self", "", vnames.ed)
-  vnames.ed <- sub("Check\\.Cashing\\.Outlet", "CCO", vnames.ed)
-  vnames.ed <- sub("Check\\.Cashing\\.Grocery", "CCG", vnames.ed)
-  vnames.ed <- sub("Mortgage\\.Late", "Mortgage Late:\\\n", vnames.ed)
-  vnames.ed <- sub("Fixed\\.Adjustable", "Mortgage Type:\\\n",
-                 vnames.ed)
-  vnames.ed <- sub("Adjustable rate mortgage", "Adjustable",
-                 vnames.ed)
-  vnames.ed <- sub("Interest\\.OnlyYes - Interest only mortgage or interest-only option",
-                 "IOARMYes", vnames.ed)
-  vnames.ed <- sub("Interest\\.OnlyNo", "IOARMNo", vnames.ed)
-  vnames.ed <- sub("No", ":No", vnames.ed)
-  vnames.ed <- sub("Yes", ":Yes", vnames.ed)
-  vnames.ed <- sub("Income4", "Income\\\n", vnames.ed)
-  vnames.ed <- sub("Kids", "Kids:", vnames.ed)
-  vnames.ed <- sub("Cards", "Cards:", vnames.ed)
-  vnames.ed <- sub("CC\\.", "", vnames.ed)
-  vnames.ed <- sub("Credit\\.Score", "Credit Score:\\\n", vnames.ed)
-  vnames.ed <- sub("Health\\.Insurance", "Health\\\nInsurance",
-                   vnames.ed)
-  vnames.ed <- sub("Investment\\.Advice", "Investment\\\nAdvice",
-                   vnames.ed)
-  vnames.ed <- sub("Tax\\.Planning", "Tax\\\nPlanning",
-                   vnames.ed)
-  vnames.ed <- sub("\\.YND", "", vnames.ed)
-  vnames.ed <- sub("\\.YN", "", vnames.ed)
-  vnames.ed <- gsub(":>", ">", vnames.ed)
-  vnames.ed <- gsub(":<", ">", vnames.ed)
-  vnames.ed <- gsub(":\\\n:", ":\\\n", vnames.ed)
-  vnames.ed <- gsub("^:", "", vnames.ed)
-  vnames.ed <- gsub(":\\$", "\\$", vnames.ed)
-  vnames.ed <- gsub("\\.", " ", vnames.ed)
-  vnames.ed <- gsub("::", ":", vnames.ed)
-  return(vnames.ed)
-}
-
-
-##' Count the number of levels in a factor
-##'
-##' Useful for plotting color ca vals
-##' @title len.lev
-##' @param x a factor
-##' @return the number of levels in \code{x}
-##' @author Kieran Healy
-len.lev <- function(x){
-  o <- length(as.vector(levels(x)))
-  return(o)
 }
