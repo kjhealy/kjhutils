@@ -68,8 +68,10 @@ run.supp.ca <- function(data, mainvars, suppvars, ...){
 ##' @param vnames vector of label names
 ##' @return Scrubbed labels for ca plot
 ##' @author Kieran Healy
+##' @export
 clean.calabels <- function(vnames){
-  vnames.ed <- sub("Gender", "Gender:\\\n", vnames)
+  vnames.ed <- sub("_", ":", vnames)
+  vnames.ed <- sub("Gender", "Gender:\\\n", vnames.ed)
   vnames.ed <- sub("Age", "Age:", vnames.ed)
   vnames.ed <- sub("Interest\\.Q\\.ans", "FinLitQ1:\\\n", vnames.ed)
   vnames.ed <- sub("Inflation\\.Q\\.ans", "FinLitQ2:\\\n", vnames.ed)
@@ -106,10 +108,12 @@ clean.calabels <- function(vnames){
                    vnames.ed)
   vnames.ed <- sub("Tax\\.Planning", "Tax\\\nPlanning",
                    vnames.ed)
+  vnames.ed <- sub("\\.YND_", "", vnames.ed)
+  vnames.ed <- sub("\\.YN_", "", vnames.ed)
   vnames.ed <- sub("\\.YND", "", vnames.ed)
   vnames.ed <- sub("\\.YN", "", vnames.ed)
   vnames.ed <- gsub(":>", ">", vnames.ed)
-  vnames.ed <- gsub(":<", ">", vnames.ed)
+  vnames.ed <- gsub(":<", "<", vnames.ed)
   vnames.ed <- gsub(":\\\n:", ":\\\n", vnames.ed)
   vnames.ed <- gsub("^:", "", vnames.ed)
   vnames.ed <- gsub(":\\$", "\\$", vnames.ed)
@@ -126,8 +130,23 @@ clean.calabels <- function(vnames){
 ##' @param x a factor
 ##' @return the number of levels in \code{x}
 ##' @author Kieran Healy
+##' @export
 len.lev <- function(x){
   o <- length(as.vector(levels(x)))
+  return(o)
+}
+
+
+##' Count the number of levels in a factor
+##'
+##' Count factor levels
+##' @title len.lev2
+##' @param x a factor
+##' @return the number of levels in \code{x}
+##' @author Kieran Healy
+##' @export
+len.lev2 <- function(x){
+  o <- nlevels(as.factor(x))
   return(o)
 }
 
