@@ -69,8 +69,11 @@ makeFootnote <- function(footnoteText=
 ##' @return credit
 ##' @author Kieran Healy
 ##' @export
-credit <- function(credit.text="Kieran Healy, http://kieranhealy.org\n") {
-  return(makeFootnote(credit.text))
+##' @param credit.text
+##' @param http://kieranhealy.org\n"
+##' @param ...  Other arguments to makeFootnote
+credit <- function(credit.text="Kieran Healy, http://kieranhealy.org\n", ...) {
+  return(makeFootnote(credit.text, ...))
 }
 
 

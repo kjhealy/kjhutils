@@ -95,6 +95,7 @@ clean.calabels <- function(vnames){
   vnames.ed <- sub("Interest\\.OnlyYes - Interest only mortgage or interest-only option",
                  "IOARMYes", vnames.ed)
   vnames.ed <- sub("Interest\\.OnlyNo", "IOARMNo", vnames.ed)
+  vnames.ed <- sub("Home.Age.f", "Home Age", vnames.ed)
   vnames.ed <- sub("No", ":No", vnames.ed)
   vnames.ed <- sub("Yes", ":Yes", vnames.ed)
   vnames.ed <- sub("Income4", "Income\\\n", vnames.ed)
