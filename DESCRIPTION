@@ -9,7 +9,8 @@ Description: For my own use only.
 License: GPL-2
 Depends:
     grid,
-    testthat
+    testthat,
+    knitr
 Collate:
     'ca.R'
     'chwd.R'
@@ -21,4 +22,5 @@ Collate:
     'clear-knitr-cache.R'
     'palette.r'
     'asinhbreaks.r'
-
+    'knit2hugo.r'
+RoxygenNote: 5.0.1
