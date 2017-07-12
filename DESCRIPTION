@@ -21,4 +21,5 @@ Collate:
     'clear-knitr-cache.R'
     'palette.r'
     'asinhbreaks.r'
-
+    'update_github.r'
+RoxygenNote: 6.0.1

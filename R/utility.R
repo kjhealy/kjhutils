@@ -39,6 +39,8 @@ vplayout <- function(x, y){
 }
 
 ##' Footnote a plot.
+##'
+##' Footnote a plot
 ##' @title makeFootnote
 ##' @param footnoteText Defaults to date stamp.
 ##' @param size
