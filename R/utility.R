@@ -43,8 +43,8 @@ vplayout <- function(x, y){
 ##' Footnote a plot
 ##' @title makeFootnote
 ##' @param footnoteText Defaults to date stamp.
-##' @param size
-##' @param color
+##' @param size size
+##' @param color color
 ##' @return plot footnote
 ##' @author Kieran Healy
 ##' @export
@@ -71,8 +71,7 @@ makeFootnote <- function(footnoteText=
 ##' @return credit
 ##' @author Kieran Healy
 ##' @export
-##' @param credit.text
-##' @param http://kieranhealy.org\n"
+##' @param credit.text Text of the credit line
 ##' @param ...  Other arguments to makeFootnote
 credit <- function(credit.text="Kieran Healy, http://kieranhealy.org\n", ...) {
   return(makeFootnote(credit.text, ...))

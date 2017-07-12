@@ -3,7 +3,7 @@
 ##' @title Inverse Hyperbolic Sine formatter
 ##' @param x Vector
 ##' @return Vector
-##' @author Kieran Healy
+##' @author Wolfgang Resch
 ##' @export
 asinh_breaks <- function(x) {
   br <- function(r) {
@@ -34,7 +34,7 @@ test_that("asinh_breaks make sense", {
 ##' @title Inverse Hyperbolic Sine transformer
 ##' @param x Vector
 ##' @return Vector
-##' @author Kieran Healy
+##' @author Wolfgan Resch
 ##' @export
 asinh_trans <- function() {
   trans_new("asinh",
