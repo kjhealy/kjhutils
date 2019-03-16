@@ -1,8 +1,8 @@
 Package: kjhutils
 Type: Package
 Title: Utility functions for data analysis.
-Version: 0.3
-Date: 2013-05-04
+Version: 0.4
+Date: 2019-03-16
 Author: Kieran Healy
 Maintainer: Kieran Healy <kjhealy@gmail.com>
 Description: For my own use only.
@@ -24,4 +24,4 @@ Collate:
     'asinhbreaks.r'
     'knit2hugo.r'
     'update_github.r'
-RoxygenNote: 6.0.1
+RoxygenNote: 6.1.1
